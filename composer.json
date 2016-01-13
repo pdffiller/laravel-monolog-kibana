@@ -1,0 +1,29 @@
+{
+    "name": "balandin/logger",
+    "description": "Monolog Formatter based on LogstashFormatter for storing Rest api errors",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anton Balandin",
+            "email": "anbalandin@gmail.com"
+        }
+    ],
+    "require": {
+	    "monolog/monolog": "~1.11",
+        "illuminate/foundation": "5.1.*",
+        "illuminate/support": "5.1.*"
+	},
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Balandin\\Logger\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Balandin\\Logger\\": "tests"
+        }
+    }
+}
