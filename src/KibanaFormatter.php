@@ -85,13 +85,25 @@ class KibanaFormatter extends \Monolog\Formatter\NormalizerFormatter
             $fields['Severity'] = $this->rfc5424ToSeverity($record['level']);
         }
 
-        $fields['Server'] = [
-            'scriptName' => $_SERVER['PHP_SELF'],
-            'requestUri' => $_SERVER['REQUEST_URI'],
-            'ip' => $_SERVER['REMOTE_ADDR'],
-            'httpHost' => $_SERVER['HTTP_HOST'],
-            'userAgent' => $_SERVER['HTTP_USER_AGENT']
-        ];
+        if (isset($_SERVER['PHP_SELF'])) {
+            $fields['Server']['scriptName'] = $_SERVER['PHP_SELF'];
+        }
+
+        if (isset($_SERVER['HTTP_HOST'])) {
+            $fields['Server']['httpHost'] = $_SERVER['HTTP_HOST'];
+        }
+
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            $fields['Server']['ip'] = $_SERVER['REMOTE_ADDR'];
+        }
+
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $fields['Server']['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
+        }
+
+        if (isset($_SERVER['REQUEST_URI'])) {
+            $fields['Server']['requestUri'] = $_SERVER['REQUEST_URI'];
+        }
 
         if (isset($_SERVER['REQUEST_METHOD'])) {
             $fields['Server']['requestMethod'] = $_SERVER['REQUEST_METHOD'];
