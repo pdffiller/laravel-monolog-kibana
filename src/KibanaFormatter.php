@@ -113,8 +113,16 @@ class KibanaFormatter extends \Monolog\Formatter\NormalizerFormatter
             $fields['Server']['SESSION'] = $_SESSION;
         }
 
-        if (isset($record['context']['user'])) {
-            $fields['User'] = $record['context']['user'];
+        if (isset($record['context']['user_name'])) {
+            $fields['user_name'] = $record['context']['user_name'];
+        }
+
+        if (isset($record['context']['user_id'])) {
+            $fields['user_id'] = $record['context']['user_id'];
+        }
+
+        if (isset($record['context']['project_id'])) {
+            $fields['project_id'] = $record['context']['project_id'];
         }
 
         $fields['Debug'] = [];
