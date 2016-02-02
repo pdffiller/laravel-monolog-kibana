@@ -1,5 +1,5 @@
 {
-    "name": "balandin/logger",
+    "name": "pdffiller/laravel-monolog-kibana",
     "description": "Monolog Formatter based on LogstashFormatter for storing Rest api errors",
     "license": "MIT",
     "authors": [
