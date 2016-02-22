@@ -1,6 +1,8 @@
 <?php
 
-namespace Balandin\Logger;
+namespace Pdffiller\LaravelMonologKibana;
+
+use Monolog\Formatter\NormalizerFormatter;
 
 /**
  * Serializes a log message to custom Logstash Event Format
@@ -10,7 +12,7 @@ namespace Balandin\Logger;
  *
  * @author Anton Balandin <anbalandin@gmail.com>
  */
-class KibanaFormatter extends \Monolog\Formatter\NormalizerFormatter
+class KibanaFormatter extends NormalizerFormatter
 {
     const APP_TYPE = 'PHP';
 
@@ -58,12 +60,16 @@ class KibanaFormatter extends \Monolog\Formatter\NormalizerFormatter
     {
         $record = parent::format($record);
 
-        $message = $this->message($record);
+        $message = $this->prepareMessage($record);
 
         return $this->toJson($message) . "\n";
     }
 
-    protected function message(array $record)
+    /**
+     * @param array $record
+     * @return array
+     */
+    protected function prepareMessage(array $record)
     {
         if (empty($record['datetime'])) {
             $record['datetime'] = gmdate('c');
@@ -115,14 +121,17 @@ class KibanaFormatter extends \Monolog\Formatter\NormalizerFormatter
 
         if (isset($record['context']['user_name'])) {
             $fields['user_name'] = $record['context']['user_name'];
+            unset($record['context']['user_name']);
         }
 
         if (isset($record['context']['user_id'])) {
             $fields['user_id'] = $record['context']['user_id'];
+            unset($record['context']['user_id']);
         }
 
         if (isset($record['context']['project_id'])) {
             $fields['project_id'] = $record['context']['project_id'];
+            unset($record['context']['project_id']);
         }
 
         $fields['Debug'] = [];
@@ -130,14 +139,8 @@ class KibanaFormatter extends \Monolog\Formatter\NormalizerFormatter
             $fields['Debug']['message'] = $record['message'];
         }
         if (!empty($record['context'])) {
-            if (isset($record['context']['file'])) {
-                $fields['Debug']['file'] = $record['context']['file'];
-            }
-            if (isset($record['context']['line'])) {
-                $fields['Debug']['line'] = $record['context']['line'];
-            }
-            if (isset($record['context']['code'])) {
-                $fields['Debug']['code'] = $record['context']['code'];
+            foreach($record['context'] as $key => $value) {
+                $fields['Debug'][$key] = $value;
             }
         }
 
@@ -146,6 +149,10 @@ class KibanaFormatter extends \Monolog\Formatter\NormalizerFormatter
         return $message;
     }
 
+    /**
+     * @param int $level
+     * @return array
+     */
     private function rfc5424ToSeverity($level)
     {
         $levels = [
