@@ -16,9 +16,15 @@ class KibanaFormatterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $logPath = storage_path().'/logs/log_'. date('Y-m-d-H') .'.json';
-        $handler = new StreamHandler($logPath);
-        $handler->setFormatter(new KibanaFormatter(env('KIBANA_FORMATTER_APPLICATION_NAME','php-api')));
+        $dir              = config('kibana-logger.log-path', storage_path('logs'));
+        $fileNameTemplate = config('kibana-logger.log-file-name-template', 'log_'. date('Y-m-d-H') .'.json');
+        $logLevel         = config('app.log_level', 'debug');
+        $applicationName  = config('kibana-logger.application-name', 'php-api');
+
+        $logPath = $dir.DIRECTORY_SEPARATOR.$fileNameTemplate;
+
+        $handler = new StreamHandler($logPath, $logLevel);
+        $handler->setFormatter(new KibanaFormatter($applicationName));
 
         $monolog = Log::getMonolog();
         $monolog->pushHandler($handler);
