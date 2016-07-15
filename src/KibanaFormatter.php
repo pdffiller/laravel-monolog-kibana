@@ -136,6 +136,12 @@ class KibanaFormatter extends NormalizerFormatter
 
         $fields['Debug'] = [];
         if (isset($record['message'])) {
+            if (strpos($record['message'], 'Pipeline') !== false) {
+                $record['message'] = substr($record['message'], 0, strpos($record['message'], 'Pipeline'));
+                if (strrpos($record['message'], '#') !== false){
+                    $record['message'] = substr($record['message'], 0, strrpos($record['message'], '#'));
+                }
+            }
             $fields['Debug']['message'] = $record['message'];
         }
         if (!empty($record['context'])) {
