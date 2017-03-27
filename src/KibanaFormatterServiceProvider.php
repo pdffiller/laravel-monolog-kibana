@@ -2,10 +2,10 @@
 
 namespace Pdffiller\LaravelMonologKibana;
 
-use Monolog\Handler\StreamHandler;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Log\Writer;
+use Illuminate\Support\ServiceProvider;
 use Log;
+use Monolog\Handler\StreamHandler;
 
 class KibanaFormatterServiceProvider extends ServiceProvider
 {
@@ -16,12 +16,12 @@ class KibanaFormatterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $dir              = config('kibana-logger.log-path', storage_path('logs'));
-        $fileNameTemplate = config('kibana-logger.log-file-name-template', 'log_'. date('Y-m-d-H') .'.json');
-        $logLevel         = config('app.log_level', 'debug');
-        $applicationName  = config('kibana-logger.application-name', 'php-api');
+        $dir = config('kibana-logger.log-path', storage_path('logs'));
+        $fileNameTemplate = config('kibana-logger.log-file-name-template', 'log_' . date('Y-m-d-H') . '.json');
+        $logLevel = config('app.log_level', 'debug');
+        $applicationName = config('kibana-logger.application-name', 'php-api');
 
-        $logPath = $dir.DIRECTORY_SEPARATOR.$fileNameTemplate;
+        $logPath = $dir . DIRECTORY_SEPARATOR . $fileNameTemplate;
 
         $handler = new StreamHandler($logPath, $logLevel);
         $handler->setFormatter(new KibanaFormatter($applicationName));

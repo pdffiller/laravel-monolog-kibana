@@ -38,9 +38,9 @@ class KibanaFormatter extends NormalizerFormatter
 
     /**
      * @param string $applicationName the application that sends the data, used as the "type" field of logstash
-     * @param string $systemName      the system/machine name, used as the "source" field of logstash, defaults to the hostname of the machine
-     * @param string $extraPrefix     prefix for extra keys inside logstash "fields"
-     * @param string $contextPrefix   prefix for context keys inside logstash "fields", defaults to ctxt_
+     * @param string $systemName the system/machine name, used as the "source" field of logstash, defaults to the hostname of the machine
+     * @param string $extraPrefix prefix for extra keys inside logstash "fields"
+     * @param string $contextPrefix prefix for context keys inside logstash "fields", defaults to ctxt_
      */
     public function __construct($applicationName, $systemName = null, $extraPrefix = null, $contextPrefix = 'ctxt_')
     {
@@ -78,7 +78,7 @@ class KibanaFormatter extends NormalizerFormatter
             '@timestamp' => $record['datetime'],
             'fields' => array()
         );
-        
+
         $fields['AppType'] = self::APP_TYPE;
 
         if ($this->applicationName) {
@@ -138,14 +138,14 @@ class KibanaFormatter extends NormalizerFormatter
         if (isset($record['message'])) {
             if (strpos($record['message'], 'Pipeline') !== false) {
                 $record['message'] = substr($record['message'], 0, strpos($record['message'], 'Pipeline'));
-                if (strrpos($record['message'], '#') !== false){
+                if (strrpos($record['message'], '#') !== false) {
                     $record['message'] = substr($record['message'], 0, strrpos($record['message'], '#'));
                 }
             }
             $fields['Debug']['message'] = $record['message'];
         }
         if (!empty($record['context'])) {
-            foreach($record['context'] as $key => $value) {
+            foreach ($record['context'] as $key => $value) {
                 $fields['Debug'][$key] = $value;
             }
         }
