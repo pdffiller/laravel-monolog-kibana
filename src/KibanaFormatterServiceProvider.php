@@ -16,7 +16,7 @@ class KibanaFormatterServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $dir = config('kibana-logger.log-path', storage_path('logs'));
+        $dir = config('kibana-logger.log-path');
         $logLevel = config('app.log_level', 'debug');
         $applicationName = config('kibana-logger.application-name', 'php-api');
 
