@@ -6,10 +6,18 @@
         {
             "name": "Anton Balandin",
             "email": "anbalandin@gmail.com"
+        },
+        {
+            "name": "Valentin Nikolaev",
+            "email": "nikolaev.valentin@pdffiller.team"
+        },
+        {
+            "name": "Serghei Iakovlev",
+            "email": "i.serghei@pdffiller.com"
         }
     ],
     "require": {
-	    "monolog/monolog": "~1.17",
+	    "monolog/monolog": "~1.22",
         "illuminate/support": "5.2.*",
         "illuminate/log": "5.2.*",
         "pdffiller/pdffiller-monolog-handler": "^1.3"
@@ -22,7 +30,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Pdffiller\\LaravelMonologKibana\\": "src"
+            "PDFfiller\\LaravelMonologKibana\\": "src"
         }
     }
 }
