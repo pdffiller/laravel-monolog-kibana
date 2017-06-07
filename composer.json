@@ -10,8 +10,8 @@
     ],
     "require": {
 	    "monolog/monolog": "~1.17",
-        "illuminate/support": "5.2.*",
-        "illuminate/log": "5.2.*"
+        "illuminate/support": "5.4.*",
+        "illuminate/log": "5.4.*"
     },
     "autoload": {
         "psr-4": {
